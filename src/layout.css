@@ -1,0 +1,50 @@
+.main {
+    padding: 20px;
+}
+
+.logo {
+    color: white;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.role {
+    color: white;
+    font-size: 14px;
+    margin-top: -20px;
+}
+
+.sidebar {
+    background-color: #005555;
+    border-radius: 5px;
+    box-shadow: 0 0 2px gray;
+    margin-right: 20px;
+    min-height: 100%;
+    padding: 10px;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 2px gray;
+    margin-bottom: 20px;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.body {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 2px gray;
+    height: 82vh;
+    width: 100%;
+    padding: 15px;
+    overflow-x: scroll !important;
+}
