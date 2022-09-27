@@ -140,3 +140,10 @@ p {
     margin-left: -40px;
     border-bottom-left-radius: 10px;
 }
+
+.header-action-icon {
+    font-size: 30px;
+    color: black !important;
+    cursor: pointer;
+    padding-left: 10px;
+}
