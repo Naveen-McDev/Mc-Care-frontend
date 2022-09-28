@@ -6,6 +6,7 @@ import { setUser } from "../redux/userSlice";
 import { showLoading, hideLoading } from "../redux/alertSlice";
 
 function ProtectedRoute(props) {
+
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,12 +27,12 @@ function ProtectedRoute(props) {
       if (response.data.success) {
         dispatch(setUser(response.data.data));
       } else {
-        localStorage.clear()
+        localStorage.clear();
         navigate("/login");
       }
     } catch (error) {
       dispatch(hideLoading());
-      localStorage.clear()
+      localStorage.clear();
       navigate("/login");
     }
   };
