@@ -1,12 +1,14 @@
+import { Badge } from "antd";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../layout.css";
 
 function Layout({ children }) {
   const [collapsed, setCollapsed] = useState(false);
-  const { user } = useSelector((state) => state.user)
+  const { user } = useSelector((state) => state.user);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const userMenu = [
     {
@@ -26,7 +28,53 @@ function Layout({ children }) {
     },
   ];
 
-  const menuTOBeRendered = userMenu;
+  const adminMenu = [
+    {
+      name: "Home",
+      path: "/",
+      icon: "ri-home-line",
+    },
+    {
+      name: "Users",
+      path: "/admin/userslist",
+      icon: "ri-user-line",
+    },
+    {
+      name: "Doctors",
+      path: "/admin/doctorslist",
+      icon: "ri-user-star-line",
+    },
+    {
+      name: "Profile",
+      path: "/profile",
+      icon: "ri-user-line",
+    },
+  ];
+
+  const doctorMenu = [
+    {
+      name: "Home",
+      path: "/",
+      icon: "ri-home-line",
+    },
+    {
+      name: "Appointments",
+      path: "/doctor/appointments",
+      icon: "ri-file-list-line",
+    },
+    {
+      name: "Profile",
+      path: `/doctor/profile/${user?._id}`,
+      icon: "ri-user-line",
+    },
+  ];
+
+  const menuToBeRendered = user?.isAdmin
+    ? adminMenu
+    : user?.isDoctor
+    ? doctorMenu
+    : userMenu;
+  const role = user?.isAdmin ? "Admin" : user?.isDoctor ? "Doctor" : "User";
 
   return (
     // main container
@@ -38,12 +86,12 @@ function Layout({ children }) {
           {/* sidebar header */}
           <div className="sidebar-header">
             <h2 className="logo">+C</h2>
-            <h1 className="role">user</h1>
+            <h1 className="role">{role}</h1>
           </div>
 
           {/* sidebar menu */}
           <div className="menu">
-            {menuTOBeRendered.map((menu) => {
+            {menuToBeRendered.map((menu) => {
               const isActive = location.pathname === menu.path;
               return (
                 <div
@@ -56,6 +104,16 @@ function Layout({ children }) {
                 </div>
               );
             })}
+            <div
+              className={`d-flex menu-item `}
+              onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
+              <i className="ri-logout-circle-line"></i>
+              {!collapsed && <Link to="/login">Logout</Link>}
+            </div>
           </div>
         </div>
 
@@ -78,8 +136,15 @@ function Layout({ children }) {
 
             {/* notificaton */}
             <div className="d-flex align-items-center px-4">
-              <i className="ri-notification-line header-action-icon px-3"></i>
-              <Link className="anchor mx-2" to='/profile'>{user?.name}</Link>
+              <Badge
+                count={user?.unseenNotifications.length}
+                onClick={() => navigate("/notifications")}
+              >
+                <i className="ri-notification-line header-action-icon px-3"></i>
+              </Badge>
+              <Link className="anchor mx-2" to="/profile">
+                {user?.name}
+              </Link>
             </div>
           </div>
 
