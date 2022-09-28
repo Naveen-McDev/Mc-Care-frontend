@@ -18,17 +18,24 @@ import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 
 function App() {
+  // accessing alert state
   const { loading } = useSelector((state) => state.alert);
 
   return (
     <BrowserRouter>
+      {/* if loading is true */}
       {loading && (
         <div className="spinner-parent">
           <div class="spinner-border" role="status"></div>
         </div>
       )}
+
+      {/* toaster */}
       <Toaster position="top-center" reverseOrder={false} />
+
+      {/* routes */}
       <Routes>
+        {/* home */}
         <Route
           path="/"
           element={
@@ -37,6 +44,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* login */}
         <Route
           path="/login"
           element={
@@ -45,6 +53,7 @@ function App() {
             </PublicRoute>
           }
         />
+        {/* register */}
         <Route
           path="/register"
           element={
@@ -53,6 +62,8 @@ function App() {
             </PublicRoute>
           }
         />
+
+        {/* apply for doctor */}
         <Route
           path="/apply-doctor"
           element={
@@ -61,6 +72,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* notifications */}
         <Route
           path="/notifications"
           element={
@@ -69,6 +81,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* userslist */}
         <Route
           path="/admin/userslist"
           element={
@@ -77,7 +90,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        {/* doctorslist */}
         <Route
           path="/admin/doctorslist"
           element={
@@ -86,6 +99,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* profile */}
         <Route
           path="/doctor/profile/:userId"
           element={
@@ -94,6 +108,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* book appointments */}
         <Route
           path="/book-appointment/:doctorId"
           element={
@@ -102,6 +117,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* appointments */}
         <Route
           path="/appointments"
           element={
@@ -110,7 +126,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        {/* doctor appointments */}
         <Route
           path="/doctor/appointments"
           element={

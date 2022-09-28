@@ -4,12 +4,16 @@ import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../layout.css";
 
+// layout
 function Layout({ children }) {
+  // state for collapsing the sidebar
   const [collapsed, setCollapsed] = useState(false);
+  // accessing the user state
   const { user } = useSelector((state) => state.user);
   const location = useLocation();
   const navigate = useNavigate();
 
+  // user menu
   const userMenu = [
     {
       name: "Home",
@@ -28,6 +32,7 @@ function Layout({ children }) {
     },
   ];
 
+  // admin menu
   const adminMenu = [
     {
       name: "Home",
@@ -51,6 +56,7 @@ function Layout({ children }) {
     },
   ];
 
+  // doctor menu
   const doctorMenu = [
     {
       name: "Home",
@@ -69,11 +75,13 @@ function Layout({ children }) {
     },
   ];
 
+  // rendering the menu list for the respective actors
   const menuToBeRendered = user?.isAdmin
     ? adminMenu
     : user?.isDoctor
     ? doctorMenu
     : userMenu;
+    // rendering the role for respective actors
   const role = user?.isAdmin ? "Admin" : user?.isDoctor ? "Doctor" : "User";
 
   return (
@@ -91,6 +99,7 @@ function Layout({ children }) {
 
           {/* sidebar menu */}
           <div className="menu">
+            {/* maping the menu */}
             {menuToBeRendered.map((menu) => {
               const isActive = location.pathname === menu.path;
               return (
@@ -104,6 +113,8 @@ function Layout({ children }) {
                 </div>
               );
             })}
+            
+            {/* logout */}
             <div
               className={`d-flex menu-item `}
               onClick={() => {

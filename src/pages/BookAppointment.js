@@ -1,27 +1,36 @@
-import { Button, Col, DatePicker, Form, Input, Row, TimePicker } from "antd";
+import { Button, Col, DatePicker, Row, TimePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../redux/alertSlice";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import DoctorForm from "../components/DoctorForm";
+import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 
+// book appointment
 function BookAppointment() {
+  // state to check availablity
   const [isAvailable, setIsAvailable] = useState(false);
   const navigate = useNavigate();
+
+  // state to set date
   const [date, setDate] = useState();
+  // state to set time
   const [time, setTime] = useState();
+
+  // accessing the user state
   const { user } = useSelector((state) => state.user);
+  // state holding the doctor data
   const [doctor, setDoctor] = useState(null);
   const params = useParams();
   const dispatch = useDispatch();
 
+  // get doctor data
   const getDoctorData = async () => {
     try {
       dispatch(showLoading());
+      // get doctor info by id from backend
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/doctor/get-doctor-info-by-id`,
         {
@@ -35,17 +44,20 @@ function BookAppointment() {
       );
 
       dispatch(hideLoading());
+      // if success, then update the doctor state
       if (response.data.success) {
         setDoctor(response.data.data);
       }
     } catch (error) {
-      console.log(error);
       dispatch(hideLoading());
     }
   };
+
+  // check availability
   const checkAvailability = async () => {
     try {
       dispatch(showLoading());
+      // check booking availability in the backend
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/user/check-booking-avilability`,
         {
@@ -60,6 +72,7 @@ function BookAppointment() {
         }
       );
       dispatch(hideLoading());
+      // if success, then update the availability state
       if (response.data.success) {
         toast.success(response.data.message);
         setIsAvailable(true);
@@ -71,10 +84,13 @@ function BookAppointment() {
       dispatch(hideLoading());
     }
   };
+
+  // book now
   const bookNow = async () => {
     setIsAvailable(false);
     try {
       dispatch(showLoading());
+      // book appointment
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/user/book-appointment`,
         {
@@ -91,8 +107,8 @@ function BookAppointment() {
           },
         }
       );
-
       dispatch(hideLoading());
+      // if success navigate to appointment screen
       if (response.data.success) {
         toast.success(response.data.message);
         navigate("/appointments");
@@ -103,11 +119,14 @@ function BookAppointment() {
     }
   };
 
+  // fetch data
   useEffect(() => {
     getDoctorData();
   }, []);
+
   return (
     <Layout>
+      {/* if doctor is true */}
       {doctor && (
         <div>
           <h1 className="page-title">
@@ -115,6 +134,7 @@ function BookAppointment() {
           </h1>
           <hr />
           <Row gutter={20} className="mt-5" align="middle">
+            {/* image */}
             <Col span={8} sm={24} xs={24} lg={8}>
               <img
                 src="https://thumbs.dreamstime.com/b/finger-press-book-now-button-booking-reservation-icon-online-149789867.jpg"
@@ -123,27 +143,35 @@ function BookAppointment() {
                 height="400"
               />
             </Col>
+            {/* doctor detail */}
             <Col span={8} sm={24} xs={24} lg={8}>
+              {/* timing */}
               <h1 className="normal-text">
                 <b>Timings :</b> {doctor.timings[0]} - {doctor.timings[1]}
               </h1>
+              {/* phone number */}
               <p>
                 <b>Phone Number : </b>
                 {doctor.phoneNumber}
               </p>
+              {/* address */}
               <p>
                 <b>Address : </b>
                 {doctor.address}
               </p>
+              {/* fee per visit */}
               <p>
                 <b>Fee per Visit : </b>
                 {doctor.feePerCunsultation}
               </p>
+              {/* website */}
               <p>
                 <b>Website : </b>
                 {doctor.website}
               </p>
+
               <div className="d-flex flex-column pt-2 mt-2">
+                {/* picking date */}
                 <DatePicker
                   format="DD-MM-YYYY"
                   onChange={(value) => {
@@ -151,6 +179,7 @@ function BookAppointment() {
                     setIsAvailable(false);
                   }}
                 />
+                {/* picking time */}
                 <TimePicker
                   format="HH:mm"
                   className="mt-3"
@@ -159,6 +188,7 @@ function BookAppointment() {
                     setTime(moment(value).format("HH:mm"));
                   }}
                 />
+                {/* check for availability */}
                 {!isAvailable && (
                   <Button
                     className="primary-button mt-3 full-width-button"
@@ -168,6 +198,7 @@ function BookAppointment() {
                   </Button>
                 )}
 
+                {/* if available book now */}
                 {isAvailable && (
                   <Button
                     className="primary-button mt-3 full-width-button"

@@ -8,14 +8,18 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// apply doctor
 function ApplyDoctor() {
   const dispatch = useDispatch();
+  // accessing user state
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
+  // on submitting the application form
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
+      // posting the appication data
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/user/apply-doctor-account`,
         {
@@ -33,10 +37,12 @@ function ApplyDoctor() {
         }
       );
       dispatch(hideLoading());
+      // if success, navigate to home page
       if (response.data.success) {
         toast.success(response.data.message);
         navigate("/");
       } else {
+        // if failed, throw error
         toast.error(response.data.message);
       }
     } catch (error) {
@@ -47,8 +53,11 @@ function ApplyDoctor() {
 
   return (
     <Layout>
+      {/* title */}
       <h1 className="page-title">Apply Doctor</h1>
+      {/* horizontal line seperating the title and the application form */}
       <hr />
+      {/* form */}
       <DoctorForm onFinish={onFinish} />
     </Layout>
   );
