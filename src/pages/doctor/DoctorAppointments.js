@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Layout from "../../components/Layout";
@@ -43,7 +44,7 @@ function DoctorAppointments() {
       // change the appointment status in the backend
       const resposne = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/doctor/change-appointment-status`,
-        { appointmentId : record._id, status: status },
+        { appointmentId: record._id, status: status },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -129,7 +130,6 @@ function DoctorAppointments() {
   useEffect(() => {
     getAppointmentsData();
   }, []);
-
 
   return (
     <Layout>

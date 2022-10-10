@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
@@ -8,7 +9,7 @@ import { showLoading, hideLoading } from "../redux/alertSlice";
 
 // home
 function Home() {
-  // state for holding the doctors 
+  // state for holding the doctors
   const [doctors, setDoctors] = useState([]);
   const dispatch = useDispatch();
   // getdata
@@ -16,11 +17,14 @@ function Home() {
     try {
       dispatch(showLoading());
       // get all approved doctors from backend
-      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/user/get-all-approved-doctors`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/user/get-all-approved-doctors`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
       dispatch(hideLoading());
       // if success update the doctor state with the data
       if (response.data.success) {
@@ -35,7 +39,6 @@ function Home() {
   useEffect(() => {
     getData();
   }, []);
-
 
   return (
     <Layout>

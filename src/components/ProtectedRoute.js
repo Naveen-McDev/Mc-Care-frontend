@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -7,7 +8,7 @@ import { showLoading, hideLoading } from "../redux/alertSlice";
 
 // protected routes
 function ProtectedRoute(props) {
-// accessing the user state
+  // accessing the user state
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();

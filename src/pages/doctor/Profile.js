@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +11,7 @@ import moment from "moment";
 
 // profile
 function Profile() {
-  // accessing the user state 
+  // accessing the user state
   const { user } = useSelector((state) => state.user);
   const params = useParams();
   // state for holding the doctor data
@@ -45,7 +46,6 @@ function Profile() {
         toast.success(response.data.message);
         navigate("/");
       } else {
-
         toast.error(response.data.message);
       }
     } catch (error) {
@@ -56,7 +56,6 @@ function Profile() {
 
   // get doctor data
   const getDoctorData = async () => {
-
     try {
       dispatch(showLoading());
       // get doctor info by user-id

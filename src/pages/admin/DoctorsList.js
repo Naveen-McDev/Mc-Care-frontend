@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Layout from "../../components/Layout";
@@ -9,7 +10,7 @@ import moment from "moment";
 
 // Doctors list
 function DoctorsList() {
-// creating a state which holds the doctors list
+  // creating a state which holds the doctors list
   const [doctors, setDoctors] = useState([]);
   const dispatch = useDispatch();
 
@@ -126,7 +127,6 @@ function DoctorsList() {
       ),
     },
   ];
-
 
   return (
     <Layout>
